@@ -20,7 +20,14 @@ android {
     }
 
     buildTypes {
+        debug {
+            // Django dev server on the host machine, as seen from the emulator
+            buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:8000/\"")
+        }
         release {
+            // Production: AWS ALB terminates TLS and forwards to the Django container.
+            // Use the apex host — the server 301/308-redirects www to it.
+            buildConfigField("String", "BASE_URL", "\"https://job-finder.co/\"")
             optimization {
                 enable = true
                 packageScope = setOf("androidx.**", "kotlin.**", "kotlinx.**")
@@ -33,6 +40,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
