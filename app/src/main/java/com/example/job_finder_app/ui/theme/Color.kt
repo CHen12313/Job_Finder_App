@@ -20,7 +20,7 @@ data class Palette(
     val track: Color,
     val good: Color,
     val goodDeep: Color,
-    val goodSoft: Color,
+    val goodSoft: Color
 )
 
 val LightPalette = Palette(
@@ -39,7 +39,7 @@ val LightPalette = Palette(
     track = Color(0xFFEFE4D9),
     good = Color(0xFF5E9472),
     goodDeep = Color(0xFF3F7355),
-    goodSoft = Color(0xFFDEEDE2),
+    goodSoft = Color(0xFFDEEDE2)
 )
 
 val DarkPalette = Palette(
@@ -58,7 +58,7 @@ val DarkPalette = Palette(
     track = Color(0xFF3B2F24),
     good = Color(0xFF74B28D),
     goodDeep = Color(0xFF93C7A8),
-    goodSoft = Color(0x2974B28D),
+    goodSoft = Color(0x2974B28D)
 )
 
 

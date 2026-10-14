@@ -1,58 +1,71 @@
 package com.example.job_finder_app.ui.theme
 
-import android.app.Activity
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
+
+// Similar to React context, LocalPalette is the context, LightPalette is the default
+val LocalPalette = staticCompositionLocalOf { LightPalette }
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = DarkPalette.primary,
+    onPrimary = DarkPalette.primaryInk,
+    background = DarkPalette.bg,
+    onBackground = DarkPalette.ink,
+    primaryContainer = DarkPalette.primarySoft,
+    onPrimaryContainer = DarkPalette.primaryDeep,
+    surface = DarkPalette.surf,
+    onSurface = DarkPalette.ink,
+    surfaceVariant = DarkPalette.surf2,
+    onSurfaceVariant = DarkPalette.muted,
+    outline = DarkPalette.lineStrong,
+    outlineVariant = DarkPalette.line
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    primary = LightPalette.primary,
+    onPrimary = LightPalette.primaryInk,
+    background = LightPalette.bg,
+    onBackground = LightPalette.ink,
+    primaryContainer = LightPalette.primarySoft,
+    onPrimaryContainer = LightPalette.primaryDeep,
+    surface = LightPalette.surf,
+    onSurface = LightPalette.ink,
+    surfaceVariant = LightPalette.surf2,
+    onSurfaceVariant = LightPalette.muted,
+    outline = LightPalette.lineStrong,
+    outlineVariant = LightPalette.line
 )
 
 @Composable
 fun Job_Finder_AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    val palette = when {
+        darkTheme -> DarkPalette
+        else -> LightPalette
+    }
+
+    CompositionLocalProvider(LocalPalette provides palette) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }
+
+// Kotlin version of React's useContext. Which calls the value inside the context object
+val MaterialTheme.palette: Palette
+    @Composable
+    get() = LocalPalette.current
