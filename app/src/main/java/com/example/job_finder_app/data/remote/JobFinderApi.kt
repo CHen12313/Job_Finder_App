@@ -14,10 +14,12 @@ import retrofit2.http.POST
  * See Django_Server_README.md for every route's contract.
  */
 interface JobFinderApi {
+    @GET("api/auth/user")
+    suspend fun authUser(): Response<AuthUserResponse>
 
-    // TODO: authUser() — GET api/auth/user → Response<AuthUserResponse>
+    @POST("api/send_email_verification_code")
+    suspend fun sendVerificationCode(@Body body: SendCodeRequest): Response<SuccessResponse>
 
-    // TODO: sendVerificationCode(body) — POST api/send_email_verification_code → Response<SuccessResponse>
-
-    // TODO: logout() — POST api/logout → Response<SuccessResponse>
+    @POST("api/logout")
+    suspend fun logout(): Response<SuccessResponse>
 }

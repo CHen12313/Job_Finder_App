@@ -6,19 +6,28 @@ import kotlinx.serialization.Serializable
 /** The logged-in user, as returned inside `GET api/auth/user`. */
 @Serializable
 data class User(
-    // TODO: id, username, user_email, user_subscription_type, user_cv_text,
-    //       user_params (SearchParameters), user_rules (FilterRules),
-    //       user_cv_set, user_search_set, first_report_generated, user_setup_complete
+    val id: Int,
+    val username: String,
+    @SerialName("user_email") val userEmail: String,
+    @SerialName("user_subscription_type") val subscriptionType: String = "free",
+    @SerialName("user_cv_text") val cvText: String? = null,
+    @SerialName("user_params") val params: SearchParameters? = null,
+    @SerialName("user_rules") val rules: FilterRules? = null,
+    @SerialName("user_cv_set") val cvSet: Boolean = false,
+    @SerialName("user_search_set") val searchSet: Boolean = false,
+    @SerialName("first_report_generated") val firstReportGenerated: Boolean = false,
+    @SerialName("user_setup_complete") val setupComplete: Boolean? = null
 )
 
 /** Response of `GET api/auth/user`. `user` is absent when logged out (401). */
 @Serializable
 data class AuthUserResponse(
-    // TODO: authenticated, user
+    val authenticated: Boolean,
+    val user: User? = null
 )
 
 /** Body of `POST api/send_email_verification_code`. Note the JSON key is "user_email". */
 @Serializable
 data class SendCodeRequest(
-    // TODO: email
+    @SerialName("user_email") val email: String
 )

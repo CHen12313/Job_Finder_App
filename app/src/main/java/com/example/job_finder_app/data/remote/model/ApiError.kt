@@ -9,7 +9,10 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class ApiError(
-    // TODO: success, error, message — all nullable with defaults
+    val success: Boolean? = null,
+    val error: String? = null,
+    val message: String? = null
 ) {
-    // TODO: computed `text` property — the first non-null of error / message, else a fallback
+    val text: String
+        get() = error ?: message ?: "unknown error"
 }

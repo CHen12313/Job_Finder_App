@@ -5,5 +5,7 @@ import kotlinx.serialization.Serializable
 /** Generic `{"success": ..., "message"?: ..., "error"?: ...}` response (login, logout, send code, save job…). */
 @Serializable
 data class SuccessResponse(
-    // TODO: success (required), message and error (optional)
+    val success: Boolean,
+    val message: String? = null,
+    val error: String? = null
 )
