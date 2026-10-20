@@ -1,17 +1,20 @@
 package com.example.job_finder_app.ui.home.components
 
+import android.R
 import android.graphics.drawable.shapes.Shape
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -50,10 +53,14 @@ fun JobRow(job: JobCard) {
         Column(
             modifier = Modifier.weight(1f)
         ) {
-            Text(text=job.jobTitle, fontWeight = FontWeight.SemiBold)
-            Text(text = "${job.companyName} · ${job.location}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.palette.muted)
+            Text(text = job.jobTitle, fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.titleSmall)
+            Text(
+                text = "${job.companyName} · ${job.location}",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.palette.muted
+            )
         }
-        Text(text = job.estimatedFitScore.toString())
+        MatchRing(score = job.estimatedFitScore)
     }
 }
 
@@ -67,14 +74,69 @@ private fun JobRowPreview() {
 
 @Composable
 fun TopMatchesCard(matches: List<JobCard>) {
-    Card(shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface))
+    Card(
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    )
     {
-        Column(modifier = Modifier.padding(20.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        Column(
+            modifier = Modifier.padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
             // header Row: "Top matches" + "View all →"
-
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text("Top Matches", style = MaterialTheme.typography.titleLarge)
+                Text(
+                    "View All →",
+                    fontWeight = FontWeight.SemiBold,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.palette.primaryDeep
+                )
+            }
             // one JobRow per match. How do you loop over a list here?
+            for (job in matches) {
+                JobRow(job)
+            }
         }
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFFAF4EE)
+@Composable
+private fun TopMatchesCardPreview() {
+    Job_Finder_AppTheme {
+        TopMatchesCard(fakeMatches)
+    }
+}
+
+@Composable
+fun MatchRing(score: Int) {
+    Box(
+        contentAlignment = Alignment.Center
+    ) {
+        // the ring
+        CircularProgressIndicator(
+            progress = { score / 100f },
+            modifier = Modifier.size(54.dp),
+            color = MaterialTheme.palette.good,
+            trackColor = MaterialTheme.palette.track,
+        )
+        // the number on top
+        Text(text = "$score",
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.palette.goodDeep,
+            style = MaterialTheme.typography.labelLarge)
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun MatchRingPreview() {
+    Job_Finder_AppTheme {
+        MatchRing(78)
     }
 }
