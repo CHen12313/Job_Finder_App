@@ -36,5 +36,6 @@ object NetworkModule {
         return Retrofit.Builder().baseUrl((BuildConfig.BASE_URL)).client(client)
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build().create(JobFinderApi::class.java)
+    //JobFinderApi will be the API interface I interact with, Retrofit will translate kotlin API calls to HTTP requests for OkHttp
     }
 }
