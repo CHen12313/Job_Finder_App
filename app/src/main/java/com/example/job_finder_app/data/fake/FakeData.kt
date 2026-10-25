@@ -1,6 +1,7 @@
 package com.example.job_finder_app.data.fake
 
 import com.example.job_finder_app.data.model.JobCard
+import com.example.job_finder_app.data.model.Skill
 
 val fakeMatches = listOf(
     JobCard(
@@ -25,5 +26,28 @@ val fakeMatches = listOf(
         companyName = "Microsoft",
         location = "Ireland",
         estimatedFitScore = 65
+    )
+)
+
+val fakeSkills = listOf(
+    Skill(
+        name = "Python",
+        missing = 0,
+        matched = 4
+    ),
+    Skill(
+        name = "SQL",
+        missing = 0,
+        matched = 3
+    ),
+    Skill(
+        name = "Java",
+        missing = 6,
+        matched = 0
+    ),
+    Skill(
+        name = "HTML",
+        missing = 2,
+        matched = 0
     )
 )

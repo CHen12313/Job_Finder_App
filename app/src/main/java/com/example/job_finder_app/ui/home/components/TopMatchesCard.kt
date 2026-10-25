@@ -76,7 +76,8 @@ private fun JobRowPreview() {
 fun TopMatchesCard(matches: List<JobCard>) {
     Card(
         shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        modifier = Modifier.fillMaxWidth()
     )
     {
         Column(
