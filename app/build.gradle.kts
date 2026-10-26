@@ -22,8 +22,9 @@ android {
 
     buildTypes {
         debug {
-            // Django dev server on the host machine, as seen from the emulator
-            buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:8000/\"")
+            // Django dev server on the host machine, tunnelled over adb — run `adb reverse tcp:8000 tcp:8000`
+            // after each emulator boot. Not 10.0.2.2: Android 17 blocks private-network IPs without ACCESS_LOCAL_NETWORK.
+            buildConfigField("String", "BASE_URL", "\"http://127.0.0.1:8000/\"")
         }
         release {
             // Production: AWS ALB terminates TLS and forwards to the Django container.
@@ -54,6 +55,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
