@@ -3,6 +3,7 @@ package com.example.job_finder_app.ui.home.components
 import android.R
 import android.graphics.drawable.shapes.Shape
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -73,7 +74,7 @@ private fun JobRowPreview() {
 }
 
 @Composable
-fun TopMatchesCard(matches: List<JobCard>) {
+fun TopMatchesCard(matches: List<JobCard>, onViewAllClick: () -> Unit) {
     Card(
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
@@ -95,7 +96,8 @@ fun TopMatchesCard(matches: List<JobCard>) {
                     "View All →",
                     fontWeight = FontWeight.SemiBold,
                     style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.palette.primaryDeep
+                    color = MaterialTheme.palette.primaryDeep,
+                    modifier = Modifier.clickable{ onViewAllClick()}.padding(8.dp)
                 )
             }
             // one JobRow per match. How do you loop over a list here?
@@ -110,7 +112,7 @@ fun TopMatchesCard(matches: List<JobCard>) {
 @Composable
 private fun TopMatchesCardPreview() {
     Job_Finder_AppTheme {
-        TopMatchesCard(fakeMatches)
+        TopMatchesCard(fakeMatches, onViewAllClick = {})
     }
 }
 
