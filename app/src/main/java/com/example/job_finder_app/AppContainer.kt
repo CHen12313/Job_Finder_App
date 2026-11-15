@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.job_finder_app.data.remote.JobFinderApi
 import com.example.job_finder_app.data.remote.NetworkModule
 import com.example.job_finder_app.data.remote.PersistentCookieJar
+import com.example.job_finder_app.data.repository.HomeRepository
 import okhttp3.OkHttpClient
 
 /**
@@ -18,4 +19,6 @@ class AppContainer(context: Context) {
     val cookieJar = PersistentCookieJar(context)
     val okHttpClient: OkHttpClient = NetworkModule.createOkHttpClient((cookieJar))
     val api: JobFinderApi = NetworkModule.createApi(okHttpClient)
+
+    val homeRepository = HomeRepository(api)
 }
