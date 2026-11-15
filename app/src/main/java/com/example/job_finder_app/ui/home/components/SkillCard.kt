@@ -1,5 +1,6 @@
 package com.example.job_finder_app.ui.home.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,9 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,15 +41,18 @@ fun SkillRow(skill: Skill, max: Int) {
                 fontWeight = FontWeight.SemiBold
             )
 
-            Text(text = "${skill.missing} jobs",
+            Text(
+                text = "${skill.missing} jobs",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.palette.muted
             )
         }
 
         LinearProgressIndicator(
-            progress = { skill.missing / max.toFloat()},
-            modifier = Modifier.fillMaxWidth().height(6.dp),
+            progress = { skill.missing / max.toFloat() },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(6.dp),
             color = MaterialTheme.palette.primary,
             trackColor = MaterialTheme.palette.track,
             strokeCap = StrokeCap.Round,
@@ -61,12 +63,12 @@ fun SkillRow(skill: Skill, max: Int) {
 }
 
 @Composable
-fun SkillsCard(skills: List<Skill>) {
-    val top = skills.filter {it.missing > 0}
+fun SkillsCard(skills: List<Skill>, onSeeAllClick: () -> Unit) {
+    val top = skills.filter { it.missing > 0 }
         .sortedByDescending { it.missing }
         .take(3)
 
-    val max = top.maxOf { it.missing }
+    val max = top.maxOfOrNull { it.missing } ?: 1
     Card(
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
@@ -81,30 +83,44 @@ fun SkillsCard(skills: List<Skill>) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Column() {
+                Column {
                     Text(
                         text = "Skills to work on",
+                        style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.SemiBold
                     )
-                    Text(text = "Missing from your CV",
-                        style = MaterialTheme.typography.titleSmall,
-                        )
+                    Text(
+                        text = "Missing from your CV",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.palette.muted
+                    )
                 }
+                Text(
+                    text = "See all →",
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.palette.primaryDeep,
+                    modifier = Modifier
+                        .clickable { onSeeAllClick() }
+                        .padding(8.dp)
+                )
             }
 
-            for (skill in top) {
-                SkillRow(skill, max)
+            if (top.isEmpty()) {
+                Text(text = "No gaps right now", color = MaterialTheme.palette.muted)
+            } else {
+                for (skill in top) {
+                    SkillRow(skill, max)
+                }
             }
         }
     }
 }
 
 
-
-
 @Preview(showBackground = true)
 @Composable
-private fun SkillCardPreview() {
+private fun SkillRowPreview() {
     Job_Finder_AppTheme {
         Box(Modifier.padding(16.dp)) {
             SkillRow(skill = fakeSkills[2], max = 10)
@@ -117,7 +133,7 @@ private fun SkillCardPreview() {
 private fun SkillsCardPreview() {
     Job_Finder_AppTheme {
         Box(Modifier.padding(16.dp)) {
-            SkillsCard(fakeSkills)
+            SkillsCard(fakeSkills, onSeeAllClick = {})
         }
     }
 }
