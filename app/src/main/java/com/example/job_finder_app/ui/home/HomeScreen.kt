@@ -28,6 +28,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.job_finder_app.data.fake.fakeMatches
 import com.example.job_finder_app.data.fake.fakeSkills
 import com.example.job_finder_app.data.fake.fakeReports
+import com.example.job_finder_app.ui.home.components.HeroCard
 import com.example.job_finder_app.ui.home.components.SkillsCard
 import com.example.job_finder_app.ui.home.components.TopMatchesCard
 import com.example.job_finder_app.ui.theme.Job_Finder_AppTheme
@@ -66,6 +67,7 @@ fun HomeContent(state: HomeUiState, onRetry: () -> Unit) {
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
+                item { HeroCard(onRunSearch = {}, onAdjustSearch = {}) }
                 item { TopMatchesCard(state.matches, onViewAllClick = {}) }
                 item { SkillsCard(state.skills, onSeeAllClick = {}) }
                 item {
