@@ -1,6 +1,5 @@
 package com.example.job_finder_app.ui.home
 
-import android.graphics.Paint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,46 +27,61 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.job_finder_app.data.fake.fakeMatches
 import com.example.job_finder_app.data.fake.fakeSkills
+import com.example.job_finder_app.data.fake.fakeReports
 import com.example.job_finder_app.ui.home.components.SkillsCard
 import com.example.job_finder_app.ui.home.components.TopMatchesCard
 import com.example.job_finder_app.ui.theme.Job_Finder_AppTheme
+import com.example.job_finder_app.ui.home.components.RecentReportsCard
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)){
+fun HomeScreen(viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     HomeContent(state = state, onRetry = viewModel::refresh)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeContent(state: HomeUiState, onRetry: () -> Unit){
+fun HomeContent(state: HomeUiState, onRetry: () -> Unit) {
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
-                title = {Text("Prospex", fontWeight = FontWeight.SemiBold)},
+                title = { Text("Prospex", fontWeight = FontWeight.SemiBold) },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background)
             )
         }
-    ) {innerPadding ->
+    ) { innerPadding ->
         when (state) {
             HomeUiState.Loading -> Box(
-                modifier = Modifier.fillMaxSize().padding(innerPadding),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator()
             }
 
-             is HomeUiState.Content -> LazyColumn(
-                 modifier = Modifier.padding(innerPadding),
-                 contentPadding = PaddingValues(16.dp),
-                 verticalArrangement = Arrangement.spacedBy(20.dp)
-             ) {
-                 item{ TopMatchesCard(state.matches, onViewAllClick = {}) }
-                 item{ SkillsCard(state.skills, onSeeAllClick = {}) }
-             }
+            is HomeUiState.Content -> LazyColumn(
+                modifier = Modifier.padding(innerPadding),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(20.dp)
+            ) {
+                item { TopMatchesCard(state.matches, onViewAllClick = {}) }
+                item { SkillsCard(state.skills, onSeeAllClick = {}) }
+                item {
+                    RecentReportsCard(
+                        reports = state.reports,
+                        onAllReportsClick = {},
+                        onReportClick = {},
+                        onDownloadClick = {}
+                    )
+                }
+            }
 
-            HomeUiState.NotLoggedIn -> CenteredMessage(innerPadding, "Log in to see your job matches.")
+            HomeUiState.NotLoggedIn -> CenteredMessage(
+                innerPadding,
+                "Log in to see your job matches."
+            )
 
             is HomeUiState.Error -> CenteredMessage(innerPadding, state.message, onRetry)
         }
@@ -75,15 +89,18 @@ fun HomeContent(state: HomeUiState, onRetry: () -> Unit){
 }
 
 @Composable
-private fun CenteredMessage(padding: PaddingValues, text: String, onRetry: (() -> Unit)? = null){
+private fun CenteredMessage(padding: PaddingValues, text: String, onRetry: (() -> Unit)? = null) {
     Column(
-         modifier = Modifier.fillMaxSize().padding(padding).padding(24.dp),
-         verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
-         horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(padding)
+            .padding(24.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text, textAlign = TextAlign.Center)
-        if (onRetry != null){
-            Button(onClick = onRetry) {Text("Try Again")}
+        if (onRetry != null) {
+            Button(onClick = onRetry) { Text("Try Again") }
         }
     }
 }
@@ -93,6 +110,6 @@ private fun CenteredMessage(padding: PaddingValues, text: String, onRetry: (() -
 @Composable
 private fun HomeScreenPreview() {
     Job_Finder_AppTheme() {
-        HomeContent(state = HomeUiState.Content(fakeMatches, fakeSkills), onRetry = {})
+        HomeContent(state = HomeUiState.Content(fakeMatches, fakeSkills, fakeReports), onRetry = {})
     }
 }

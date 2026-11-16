@@ -2,8 +2,10 @@ package com.example.job_finder_app.ui.navigation
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,6 +20,7 @@ import com.example.job_finder_app.ui.matches.MatchesScreen
 import com.example.job_finder_app.ui.profile.ProfileScreen
 import com.example.job_finder_app.ui.reports.ReportsScreen
 import com.example.job_finder_app.ui.skills.SkillsScreen
+import com.example.job_finder_app.ui.theme.palette
 
 @Composable
 fun AppNavigation() {
@@ -28,7 +31,7 @@ fun AppNavigation() {
 
         Scaffold(
             bottomBar = {
-                NavigationBar {
+                NavigationBar(containerColor = MaterialTheme.palette.surf) {
                     for (tab in BottomTab.entries) {
                         NavigationBarItem(
                             selected = currentRoute == tab.route,
@@ -42,7 +45,13 @@ fun AppNavigation() {
                                 }
                             },
                             icon = { Icon(tab.icon, contentDescription = tab.label)},
-                            label = {Text(tab.label)}
+                            label = {Text(tab.label)},
+                            colors = NavigationBarItemDefaults.colors(
+                                selectedIconColor = MaterialTheme.palette.primary,
+                                selectedTextColor = MaterialTheme.palette.primary,
+                                indicatorColor = MaterialTheme.palette.primarySoft,
+                                unselectedIconColor = MaterialTheme.palette.muted,
+                                unselectedTextColor = MaterialTheme.palette.muted)
                         )
                     }
                 }

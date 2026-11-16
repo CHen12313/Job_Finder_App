@@ -2,6 +2,8 @@ package com.example.job_finder_app.data.fake
 
 import com.example.job_finder_app.data.model.JobCard
 import com.example.job_finder_app.data.model.Skill
+import com.example.job_finder_app.data.model.Report
+import kotlin.String
 
 val fakeMatches = listOf(
     JobCard(
@@ -50,4 +52,38 @@ val fakeSkills = listOf(
         missing = 2,
         matched = 0
     )
+)
+
+val fakeReports = listOf(
+    Report(
+        runId = 1,
+        reportDate = "2026-12-01",
+        query = "Software Engineer",
+        location = "USA",
+        jobCount = 1,
+        avgScore = 67,
+        topScore = 67,
+        fileName = "Job_Listing_Brief_2026-12-01_(1).pdf"
+    ),
+    Report(
+        runId = 2,
+        reportDate = "2025-07-21",
+        query = "Junior Software Engineer",
+        location = "Ireland",
+        jobCount = 5,
+        avgScore = 87,
+        topScore = 92,
+        fileName = "Job_Listing_Brief_2025-07-21_(2).pdf"
+    ),
+    Report(
+        runId = 3,
+        reportDate = "2026-03-16",
+        query = "AI prompt writer",
+        location = "",
+        jobCount = 0,
+        avgScore = null,
+        topScore = null,
+        fileName = "Job_Listing_Brief_2026-03-16_(3).pdf"
+    )
+
 )
