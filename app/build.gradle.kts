@@ -25,11 +25,16 @@ android {
             // Django dev server on the host machine, tunnelled over adb — run `adb reverse tcp:8000 tcp:8000`
             // after each emulator boot. Not 10.0.2.2: Android 17 blocks private-network IPs without ACCESS_LOCAL_NETWORK.
             buildConfigField("String", "BASE_URL", "\"http://127.0.0.1:8000/\"")
+            // Cloudflare's dummy Turnstile token. Only passes when the server uses a Turnstile *test* secret
+            // (1x0000000000000000000000000000000AA). Production rejects it.
+            buildConfigField("String", "TURNSTILE_TOKEN", "\"XXXX.DUMMY.TOKEN.XXXX\"")
         }
         release {
             // Production: AWS ALB terminates TLS and forwards to the Django container.
             // Use the apex host — the server 301/308-redirects www to it.
             buildConfigField("String", "BASE_URL", "\"https://job-finder.co/\"")
+            // No real token yet: release login fails with 403 until the Turnstile WebView replaces this.
+            buildConfigField("String", "TURNSTILE_TOKEN", "\"\"")
             optimization {
                 enable = true
                 packageScope = setOf("androidx.**", "kotlin.**", "kotlinx.**")
