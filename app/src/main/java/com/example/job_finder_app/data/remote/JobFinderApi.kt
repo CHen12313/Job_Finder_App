@@ -2,6 +2,8 @@ package com.example.job_finder_app.data.remote
 
 import com.example.job_finder_app.data.remote.model.AuthUserResponse
 import com.example.job_finder_app.data.remote.model.JobCardPage
+import com.example.job_finder_app.data.remote.model.LoginRequest
+import com.example.job_finder_app.data.remote.model.ReportListResponse
 import com.example.job_finder_app.data.remote.model.SendCodeRequest
 import com.example.job_finder_app.data.remote.model.SkillsTrendResponse
 import com.example.job_finder_app.data.remote.model.SuccessResponse
@@ -23,6 +25,9 @@ interface JobFinderApi {
     @POST("api/send_email_verification_code")
     suspend fun sendVerificationCode(@Body body: SendCodeRequest): Response<SuccessResponse>
 
+    @POST("api/login")
+    suspend fun login(@Body body: LoginRequest): Response<SuccessResponse>
+
     @POST("api/logout")
     suspend fun logout(): Response<SuccessResponse>
 
@@ -34,4 +39,7 @@ interface JobFinderApi {
 
     @GET("api/get_skills_trend")
     suspend fun getSkillsTrend(@Query("limit") limit: Int = 3): Response<SkillsTrendResponse>
+
+    @GET("api/list_all_reports")
+    suspend fun listAllReports(): Response<ReportListResponse>
 }

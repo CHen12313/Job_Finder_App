@@ -1,7 +1,9 @@
 package com.example.job_finder_app.data.remote
 import com.example.job_finder_app.data.model.JobCard
+import com.example.job_finder_app.data.model.Report
 import com.example.job_finder_app.data.model.Skill
 import com.example.job_finder_app.data.remote.model.JobDto
+import com.example.job_finder_app.data.remote.model.ReportDto
 import com.example.job_finder_app.data.remote.model.SkillsTrendResponse
 
 
@@ -25,3 +27,15 @@ fun SkillsTrendResponse.toSkills(): List<Skill> = skills.map { (name, counts)  -
     )
 
 }
+
+//Server report run -> the UI's Report. downloadUrl is dropped until the UI supports downloads.
+fun ReportDto.toReport(): Report = Report(
+    runId = this.runId.toInt(),
+    reportDate = this.reportDate,
+    query = this.query,
+    location = this.location,
+    jobCount = this.jobCount,
+    avgScore = this.avgScore,
+    topScore = this.topScore,
+    fileName = this.filename
+)
