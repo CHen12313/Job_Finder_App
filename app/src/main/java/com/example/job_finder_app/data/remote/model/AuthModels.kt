@@ -26,6 +26,15 @@ data class AuthUserResponse(
     val user: User? = null
 )
 
+/** Body of `POST api/login` */
+@Serializable
+data class LoginRequest(
+    val username: String,
+    val password: String,
+    val remember: Boolean,
+    @SerialName("cf-turnstile-response") val turnstileToken: String
+)
+
 /** Body of `POST api/send_email_verification_code`. Note the JSON key is "user_email". */
 @Serializable
 data class SendCodeRequest(
