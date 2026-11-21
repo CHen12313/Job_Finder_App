@@ -24,21 +24,21 @@ data class JobCardPage(
 
 @Serializable
 data class PointDto(
-    val point: String,
-    val evidence: String
-){
+    val point: String? = null,
+    val evidence: String? = null
+)
 
-}
 @Serializable
 data class JobReportSectionDto(
     @SerialName("job_description") val description: String? = null,
-    val matches: List<PointDto>?= emptyList(),
-    @SerialName("non_matches") val nonMatches: List<PointDto>?=  emptyList(),
+    val matches: List<PointDto> = emptyList(),
+    @SerialName("non_matches") val nonMatches: List<PointDto> =  emptyList(),
     @SerialName("fit_score_reason") val fitScoreReason: String? = null
 )
 
 @Serializable
 data class JobDetailDto(
+    val success: Boolean,
     @SerialName("job_id") val jobId: String,
     @SerialName("job_title") val title: String? = null,
     @SerialName("company_name") val company: String? = null,
@@ -48,5 +48,5 @@ data class JobDetailDto(
     @SerialName("job_report_section") val jobReportSection: JobReportSectionDto? = null,
     @SerialName("matched_skills") val matchedSkills: List<String>    = emptyList(),
     @SerialName("missing_skills") val missingSkills: List<String> = emptyList(),
-    @SerialName("original_link") val originalLink: String?
+    @SerialName("original_link") val originalLink: String? = null
 )
