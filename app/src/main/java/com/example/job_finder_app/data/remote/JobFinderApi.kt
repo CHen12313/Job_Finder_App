@@ -52,8 +52,8 @@ interface JobFinderApi {
     @GET("api/list_all_reports")
     suspend fun listAllReports(): Response<ReportListResponse>
 
-    @GET ("api/getJsonReport")
-    suspend fun getJsonReport(): Response<JsonReportResponse>
+    @GET("api/json_reports/{runId}")
+    suspend fun getJsonReport(@Path("runId") runId: Long): Response<JsonReportResponse>
 
     @GET ("api/get_search_parameters")
     suspend fun getSearchParameters(): Response<GetSearchParametersResponse>
