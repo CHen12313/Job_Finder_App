@@ -6,6 +6,8 @@ import com.example.job_finder_app.data.remote.NetworkModule
 import com.example.job_finder_app.data.remote.PersistentCookieJar
 import com.example.job_finder_app.data.repository.AuthRepository
 import com.example.job_finder_app.data.repository.HomeRepository
+import com.example.job_finder_app.data.repository.ReportRepository
+import com.example.job_finder_app.data.repository.SearchRepository
 import okhttp3.OkHttpClient
 
 /**
@@ -24,4 +26,8 @@ class AppContainer(context: Context) {
     val homeRepository = HomeRepository(api)
 
     val authRepository = AuthRepository(api)
+
+    val searchRepository = SearchRepository(api)
+
+    val reportRepository = ReportRepository(api)
 }

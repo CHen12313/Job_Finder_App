@@ -18,6 +18,7 @@ data class FullReportDto(
 @Serializable
 data class JsonReportResponse(
     val success: Boolean,
+    val error: String? = null,
     @SerialName("run_id") val runId: Long,
     @SerialName("report_date") val reportDate: String,
     val query: String? = null,
