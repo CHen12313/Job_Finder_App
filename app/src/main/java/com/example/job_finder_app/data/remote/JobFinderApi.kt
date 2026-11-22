@@ -4,6 +4,7 @@ import com.example.job_finder_app.data.remote.model.AuthUserResponse
 import com.example.job_finder_app.data.remote.model.GetSearchParametersResponse
 import com.example.job_finder_app.data.remote.model.JobCardPage
 import com.example.job_finder_app.data.remote.model.JobDetailDto
+import com.example.job_finder_app.data.remote.model.JsonReportResponse
 import com.example.job_finder_app.data.remote.model.LoginRequest
 import com.example.job_finder_app.data.remote.model.ReportListResponse
 import com.example.job_finder_app.data.remote.model.SendCodeRequest
@@ -50,6 +51,9 @@ interface JobFinderApi {
 
     @GET("api/list_all_reports")
     suspend fun listAllReports(): Response<ReportListResponse>
+
+    @GET ("api/getJsonReport")
+    suspend fun getJsonReport(): Response<JsonReportResponse>
 
     @GET ("api/get_search_parameters")
     suspend fun getSearchParameters(): Response<GetSearchParametersResponse>
