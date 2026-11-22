@@ -28,11 +28,20 @@ data class PointDto(
     val evidence: String? = null
 )
 
+/**One job's full analysis, used for individual job matches as well as the full report */
 @Serializable
 data class JobReportSectionDto(
+    @SerialName("job_id") val jobId: String? = null,
+    @SerialName("job_title") val title: String? = null,
+    @SerialName("company_name") val company: String? = null,
+    val location: String? = null,
+    val url: String? = null,
     @SerialName("job_description") val description: String? = null,
     val matches: List<PointDto> = emptyList(),
-    @SerialName("non_matches") val nonMatches: List<PointDto> =  emptyList(),
+    @SerialName("non_matches") val nonMatches: List<PointDto> = emptyList(),
+    @SerialName("matched_skills") val matchedSkills: List<String> = emptyList(),
+    @SerialName("missing_skills") val missingSkills: List<String> = emptyList(),
+    @SerialName("fit_score") val fitScore: Int? = null,
     @SerialName("fit_score_reason") val fitScoreReason: String? = null
 )
 
