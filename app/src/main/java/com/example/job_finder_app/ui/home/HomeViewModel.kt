@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.job_finder_app.JobFinderApplication
+import com.example.job_finder_app.data.fake.fakeSetupStatus
 import com.example.job_finder_app.data.remote.NotLoggedInException
 import com.example.job_finder_app.data.repository.HomeRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,7 +33,7 @@ class HomeViewModel(private val repository: HomeRepository): ViewModel(){
             val error = matches.exceptionOrNull() ?: skills.exceptionOrNull()?: reports.exceptionOrNull()
 
             _uiState.value = when (error){
-                null -> HomeUiState.Content(matches.getOrThrow(), skills.getOrThrow(), reports = reports.getOrThrow())
+                null -> HomeUiState.Content(matches.getOrThrow(), skills.getOrThrow(), reports.getOrThrow(), setupStatus = fakeSetupStatus)
                 is NotLoggedInException -> HomeUiState.NotLoggedIn
                 else -> HomeUiState.Error(error.message ?: "Something went wrong")
             }

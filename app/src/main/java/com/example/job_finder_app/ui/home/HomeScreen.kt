@@ -28,11 +28,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.job_finder_app.data.fake.fakeMatches
 import com.example.job_finder_app.data.fake.fakeSkills
 import com.example.job_finder_app.data.fake.fakeReports
+import com.example.job_finder_app.data.fake.fakeSetupStatus
 import com.example.job_finder_app.ui.home.components.HeroCard
 import com.example.job_finder_app.ui.home.components.SkillsCard
 import com.example.job_finder_app.ui.home.components.TopMatchesCard
 import com.example.job_finder_app.ui.theme.Job_Finder_AppTheme
 import com.example.job_finder_app.ui.home.components.RecentReportsCard
+import com.example.job_finder_app.ui.home.components.SetupCard
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)) {
@@ -68,6 +70,12 @@ fun HomeContent(state: HomeUiState, onRetry: () -> Unit) {
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
                 item { HeroCard(onRunSearch = {}, onAdjustSearch = {}) }
+                item {
+                    SetupCard(
+                        state.setupStatus, onUploadCv = {},
+                        onSetSearch = {},
+                        onGenerateReport = {})
+                }
                 item { TopMatchesCard(state.matches, onViewAllClick = {}) }
                 item { SkillsCard(state.skills, onSeeAllClick = {}) }
                 item {
@@ -111,7 +119,11 @@ private fun CenteredMessage(padding: PaddingValues, text: String, onRetry: (() -
 @Preview(showBackground = true)
 @Composable
 private fun HomeScreenPreview() {
-    Job_Finder_AppTheme() {
-        HomeContent(state = HomeUiState.Content(fakeMatches, fakeSkills, fakeReports), onRetry = {})
+    Job_Finder_AppTheme {
+        HomeContent(
+            state = HomeUiState.Content(
+                fakeMatches, fakeSkills, fakeReports,
+                fakeSetupStatus
+            ), onRetry = {})
     }
 }

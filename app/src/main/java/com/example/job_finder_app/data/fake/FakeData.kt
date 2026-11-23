@@ -3,8 +3,7 @@ package com.example.job_finder_app.data.fake
 import com.example.job_finder_app.data.model.JobCard
 import com.example.job_finder_app.data.model.Skill
 import com.example.job_finder_app.data.model.Report
-import kotlin.String
-
+import com.example.job_finder_app.data.model.SetupStatus
 val fakeMatches = listOf(
     JobCard(
         jobId = "1",
@@ -87,3 +86,11 @@ val fakeReports = listOf(
     )
 
 )
+
+val fakeSetupStatus =
+    SetupStatus(
+        cvSet = true,
+        searchSet = false,
+        firstReportGenerated = false,
+        setupComplete = false
+    )
