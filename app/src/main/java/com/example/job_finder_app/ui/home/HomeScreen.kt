@@ -2,12 +2,10 @@ package com.example.job_finder_app.ui.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -20,21 +18,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.job_finder_app.data.fake.fakeMatches
-import com.example.job_finder_app.data.fake.fakeSkills
 import com.example.job_finder_app.data.fake.fakeReports
 import com.example.job_finder_app.data.fake.fakeSetupStatus
+import com.example.job_finder_app.data.fake.fakeSkills
+import com.example.job_finder_app.ui.home.components.CenteredMessage
 import com.example.job_finder_app.ui.home.components.HeroCard
+import com.example.job_finder_app.ui.home.components.RecentReportsCard
+import com.example.job_finder_app.ui.home.components.SetupCard
 import com.example.job_finder_app.ui.home.components.SkillsCard
 import com.example.job_finder_app.ui.home.components.TopMatchesCard
 import com.example.job_finder_app.ui.theme.Job_Finder_AppTheme
-import com.example.job_finder_app.ui.home.components.RecentReportsCard
-import com.example.job_finder_app.ui.home.components.SetupCard
 
 @Composable
 fun HomeScreen(onLoginClick: () -> Unit, viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)) {
@@ -96,26 +94,6 @@ fun HomeContent(state: HomeUiState, onRetry: () -> Unit, onLoginClick: () -> Uni
             )
 
             is HomeUiState.Error -> CenteredMessage(innerPadding, state.message, onRetry)
-        }
-    }
-}
-
-@Composable
-private fun CenteredMessage(padding: PaddingValues,
-                            text: String,
-                            onRetry: (() -> Unit)? = null,
-                            buttonText: String = "Try Again") {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(padding)
-            .padding(24.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text, textAlign = TextAlign.Center)
-        if (onRetry != null) {
-            Button(onClick = onRetry) { Text(buttonText) }
         }
     }
 }

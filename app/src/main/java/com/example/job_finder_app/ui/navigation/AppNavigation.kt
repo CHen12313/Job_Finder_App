@@ -71,7 +71,7 @@ fun AppNavigation() {
                         }
                     })
                 }
-                composable(BottomTab.Matches.route) { MatchesScreen() }
+                composable(BottomTab.Matches.route) {MatchesScreen(onLoginClick = {navController.navigate("login")})}
                 composable(BottomTab.Reports.route) {ReportsScreen()}
                 composable(BottomTab.Skills.route) {SkillsScreen()}
                 composable(BottomTab.Profile.route) {ProfileScreen()}
