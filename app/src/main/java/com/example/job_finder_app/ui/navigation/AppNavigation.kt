@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.job_finder_app.ui.home.HomeScreen
+import com.example.job_finder_app.ui.login.LoginScreen
 import com.example.job_finder_app.ui.matches.MatchesScreen
 import com.example.job_finder_app.ui.profile.ProfileScreen
 import com.example.job_finder_app.ui.reports.ReportsScreen
@@ -25,8 +26,6 @@ import com.example.job_finder_app.ui.theme.palette
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
-    // currentBackStackEntryAsState() returns whatever screen is showing and updates UI when it changes
-    // ? is a safe call, returns null instead of crashing
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
 
         Scaffold(
@@ -38,10 +37,10 @@ fun AppNavigation() {
                             onClick = {
                                 navController.navigate(tab.route) {
                                     popUpTo(navController.graph.findStartDestination().id) { //clears screens back to home
-                                        saveState = true    // Remember each tab's scroll position when you switch away
+                                        saveState = true  //remembers scroll position
                                     }
-                                    launchSingleTop = true  // stops a 2nd copy of the same screen if tapped twice
-                                    restoreState = true // Remember each tab's scroll position when you switch away
+                                    launchSingleTop = true //stops a second copy if double tap
+                                    restoreState = true //remember each tabs' scroll position
                                 }
                             },
                             icon = { Icon(tab.icon, contentDescription = tab.label)},
@@ -62,7 +61,16 @@ fun AppNavigation() {
                 startDestination = BottomTab.Home.route,
                 modifier = Modifier.padding(innerPadding)
             ) {
-                composable(BottomTab.Home.route) { HomeScreen() }
+                composable(BottomTab.Home.route) {
+                    HomeScreen(onLoginClick = { navController.navigate("login") })
+                }
+                composable("login") {
+                    LoginScreen(onLoggedIn = {
+                        navController.navigate(BottomTab.Home.route){
+                            popUpTo(BottomTab.Home.route) { inclusive = true }
+                        }
+                    })
+                }
                 composable(BottomTab.Matches.route) { MatchesScreen() }
                 composable(BottomTab.Reports.route) {ReportsScreen()}
                 composable(BottomTab.Skills.route) {SkillsScreen()}

@@ -37,14 +37,14 @@ import com.example.job_finder_app.ui.home.components.RecentReportsCard
 import com.example.job_finder_app.ui.home.components.SetupCard
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)) {
+fun HomeScreen(onLoginClick: () -> Unit, viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    HomeContent(state = state, onRetry = viewModel::refresh)
+    HomeContent(state = state, onRetry = viewModel::refresh, onLoginClick = onLoginClick)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeContent(state: HomeUiState, onRetry: () -> Unit) {
+fun HomeContent(state: HomeUiState, onRetry: () -> Unit, onLoginClick: () -> Unit = {}) {
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
@@ -90,7 +90,9 @@ fun HomeContent(state: HomeUiState, onRetry: () -> Unit) {
 
             HomeUiState.NotLoggedIn -> CenteredMessage(
                 innerPadding,
-                "Log in to see your job matches."
+                "Log in to see your job matches.",
+                onRetry = onLoginClick,
+                buttonText = "Log in"
             )
 
             is HomeUiState.Error -> CenteredMessage(innerPadding, state.message, onRetry)
@@ -99,7 +101,10 @@ fun HomeContent(state: HomeUiState, onRetry: () -> Unit) {
 }
 
 @Composable
-private fun CenteredMessage(padding: PaddingValues, text: String, onRetry: (() -> Unit)? = null) {
+private fun CenteredMessage(padding: PaddingValues,
+                            text: String,
+                            onRetry: (() -> Unit)? = null,
+                            buttonText: String = "Try Again") {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -110,7 +115,7 @@ private fun CenteredMessage(padding: PaddingValues, text: String, onRetry: (() -
     ) {
         Text(text, textAlign = TextAlign.Center)
         if (onRetry != null) {
-            Button(onClick = onRetry) { Text("Try Again") }
+            Button(onClick = onRetry) { Text(buttonText) }
         }
     }
 }
