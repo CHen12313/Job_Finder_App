@@ -35,14 +35,30 @@ import com.example.job_finder_app.ui.home.components.TopMatchesCard
 import com.example.job_finder_app.ui.theme.Job_Finder_AppTheme
 
 @Composable
-fun HomeScreen(onLoginClick: () -> Unit, viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)) {
+fun HomeScreen(
+    onLoginClick: () -> Unit,
+    onViewAllMatchesClick: () -> Unit,
+    onAllReportsClick: () -> Unit,
+    viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)
+) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    HomeContent(state = state, onRetry = viewModel::refresh, onLoginClick = onLoginClick)
+    HomeContent(
+        state = state,
+        onRetry = viewModel::refresh,
+        onLoginClick = onLoginClick,
+        onViewAllClick= onViewAllMatchesClick,
+        onAllReportsClick = onAllReportsClick
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeContent(state: HomeUiState, onRetry: () -> Unit, onLoginClick: () -> Unit = {}) {
+fun HomeContent(
+    state: HomeUiState,
+    onRetry: () -> Unit,
+    onLoginClick: () -> Unit = {},
+    onAllReportsClick: () -> Unit
+) {
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
@@ -74,12 +90,12 @@ fun HomeContent(state: HomeUiState, onRetry: () -> Unit, onLoginClick: () -> Uni
                         onSetSearch = {},
                         onGenerateReport = {})
                 }
-                item { TopMatchesCard(state.matches, onViewAllClick = {}) }
+                item { TopMatchesCard(state.matches, onViewAllClick = onAllReportsClick) }
                 item { SkillsCard(state.skills, onSeeAllClick = {}) }
                 item {
                     RecentReportsCard(
                         reports = state.reports,
-                        onAllReportsClick = {},
+                        onAllReportsClick = onAllReportsClick,
                         onReportClick = {},
                         onDownloadClick = {}
                     )
@@ -107,6 +123,6 @@ private fun HomeScreenPreview() {
             state = HomeUiState.Content(
                 fakeMatches, fakeSkills, fakeReports,
                 fakeSetupStatus
-            ), onRetry = {})
+            ), onRetry = {}, onAllReportsClick = {})
     }
 }
