@@ -70,7 +70,8 @@ fun AppNavigation() {
                 HomeScreen(
                     onLoginClick = goToLogin,
                     onViewAllMatchesClick = { navigateToTab(BottomTab.Matches.route) },
-                    onAllReportsClick = { navigateToTab(BottomTab.Reports.route) })
+                    onAllReportsClick = { navigateToTab(BottomTab.Reports.route) },
+                    onSeeAllSkillsClick = { navigateToTab(BottomTab.Skills.route)})
             }
             composable("login") {
                 LoginScreen(onLoggedIn = {
@@ -85,7 +86,9 @@ fun AppNavigation() {
             composable(BottomTab.Reports.route) {
                 ReportsScreen(onLoginClick = goToLogin)
             }
-            composable(BottomTab.Skills.route) { SkillsScreen() }
+            composable(BottomTab.Skills.route) {
+                SkillsScreen(onLoginClick = goToLogin)
+            }
             composable(BottomTab.Profile.route) { ProfileScreen() }
 
         }

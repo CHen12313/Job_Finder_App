@@ -39,6 +39,7 @@ fun HomeScreen(
     onLoginClick: () -> Unit,
     onViewAllMatchesClick: () -> Unit,
     onAllReportsClick: () -> Unit,
+    onSeeAllSkillsClick: () -> Unit,
     viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -46,8 +47,9 @@ fun HomeScreen(
         state = state,
         onRetry = viewModel::refresh,
         onLoginClick = onLoginClick,
-        onViewAllClick= onViewAllMatchesClick,
-        onAllReportsClick = onAllReportsClick
+        onViewAllMatchesClick = onViewAllMatchesClick,
+        onAllReportsClick = onAllReportsClick,
+        onSeeAllSkillsClick = onSeeAllSkillsClick
     )
 }
 
@@ -57,7 +59,9 @@ fun HomeContent(
     state: HomeUiState,
     onRetry: () -> Unit,
     onLoginClick: () -> Unit = {},
-    onAllReportsClick: () -> Unit
+    onAllReportsClick: () -> Unit = {},
+    onViewAllMatchesClick: () -> Unit = {},
+    onSeeAllSkillsClick: () -> Unit = {}
 ) {
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
@@ -90,8 +94,8 @@ fun HomeContent(
                         onSetSearch = {},
                         onGenerateReport = {})
                 }
-                item { TopMatchesCard(state.matches, onViewAllClick = onAllReportsClick) }
-                item { SkillsCard(state.skills, onSeeAllClick = {}) }
+                item { TopMatchesCard(state.matches, onViewAllClick = onViewAllMatchesClick) }
+                item { SkillsCard(state.skills, onSeeAllClick = onSeeAllSkillsClick) }
                 item {
                     RecentReportsCard(
                         reports = state.reports,
@@ -123,6 +127,6 @@ private fun HomeScreenPreview() {
             state = HomeUiState.Content(
                 fakeMatches, fakeSkills, fakeReports,
                 fakeSetupStatus
-            ), onRetry = {}, onAllReportsClick = {})
+            ), onRetry = {})
     }
 }
