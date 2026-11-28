@@ -27,55 +27,70 @@ import com.example.job_finder_app.ui.theme.palette
 fun AppNavigation() {
     val navController = rememberNavController()
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
-
-        Scaffold(
-            bottomBar = {
-                NavigationBar(containerColor = MaterialTheme.palette.surf) {
-                    for (tab in BottomTab.entries) {
-                        NavigationBarItem(
-                            selected = currentRoute == tab.route,
-                            onClick = {
-                                navController.navigate(tab.route) {
-                                    popUpTo(navController.graph.findStartDestination().id) { //clears screens back to home
-                                        saveState = true  //remembers scroll position
-                                    }
-                                    launchSingleTop = true //stops a second copy if double tap
-                                    restoreState = true //remember each tabs' scroll position
-                                }
-                            },
-                            icon = { Icon(tab.icon, contentDescription = tab.label)},
-                            label = {Text(tab.label)},
-                            colors = NavigationBarItemDefaults.colors(
-                                selectedIconColor = MaterialTheme.palette.primary,
-                                selectedTextColor = MaterialTheme.palette.primary,
-                                indicatorColor = MaterialTheme.palette.primarySoft,
-                                unselectedIconColor = MaterialTheme.palette.muted,
-                                unselectedTextColor = MaterialTheme.palette.muted)
-                        )
-                    }
-                }
+    val goToLogin = { navController.navigate("login") }
+    fun navigateToTab(route: String) {
+        navController.navigate(route) {
+            popUpTo(navController.graph.findStartDestination().id) { //clears screens back to home
+                saveState = true  //remembers scroll position
             }
-        ) { innerPadding ->
-            NavHost(
-                navController = navController,
-                startDestination = BottomTab.Home.route,
-                modifier = Modifier.padding(innerPadding)
-            ) {
-                composable(BottomTab.Home.route) {
-                    HomeScreen(onLoginClick = { navController.navigate("login") })
-                }
-                composable("login") {
-                    LoginScreen(onLoggedIn = {
-                        navController.navigate(BottomTab.Home.route){
-                            popUpTo(BottomTab.Home.route) { inclusive = true }
-                        }
-                    })
-                }
-                composable(BottomTab.Matches.route) { MatchesScreen() }
-                composable(BottomTab.Reports.route) {ReportsScreen()}
-                composable(BottomTab.Skills.route) {SkillsScreen()}
-                composable(BottomTab.Profile.route) {ProfileScreen()}
+            launchSingleTop = true //stops a second copy if double tap
+            restoreState = true //remember each tabs' scroll position
+        }
+    }
 
+    Scaffold(
+        bottomBar = {
+            NavigationBar(containerColor = MaterialTheme.palette.surf) {
+                for (tab in BottomTab.entries) {
+                    NavigationBarItem(
+                        selected = currentRoute == tab.route,
+                        onClick = {
+                            navigateToTab(tab.route)
+                        },
+                        icon = { Icon(tab.icon, contentDescription = tab.label) },
+                        label = { Text(tab.label) },
+                        colors = NavigationBarItemDefaults.colors(
+                            selectedIconColor = MaterialTheme.palette.primary,
+                            selectedTextColor = MaterialTheme.palette.primary,
+                            indicatorColor = MaterialTheme.palette.primarySoft,
+                            unselectedIconColor = MaterialTheme.palette.muted,
+                            unselectedTextColor = MaterialTheme.palette.muted
+                        )
+                    )
+                }
             }
         }
+    ) { innerPadding ->
+        NavHost(
+            navController = navController,
+            startDestination = BottomTab.Home.route,
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            composable(BottomTab.Home.route) {
+                HomeScreen(
+                    onLoginClick = goToLogin,
+                    onViewAllMatchesClick = { navigateToTab(BottomTab.Matches.route) },
+                    onAllReportsClick = { navigateToTab(BottomTab.Reports.route) },
+                    onSeeAllSkillsClick = { navigateToTab(BottomTab.Skills.route)})
+            }
+            composable("login") {
+                LoginScreen(onLoggedIn = {
+                    navController.navigate(BottomTab.Home.route) {
+                        popUpTo(BottomTab.Home.route) { inclusive = true }
+                    }
+                })
+            }
+            composable(BottomTab.Matches.route) {
+                MatchesScreen(onLoginClick = goToLogin)
+            }
+            composable(BottomTab.Reports.route) {
+                ReportsScreen(onLoginClick = goToLogin)
+            }
+            composable(BottomTab.Skills.route) {
+                SkillsScreen(onLoginClick = goToLogin)
+            }
+            composable(BottomTab.Profile.route) { ProfileScreen() }
+
+        }
+    }
 }

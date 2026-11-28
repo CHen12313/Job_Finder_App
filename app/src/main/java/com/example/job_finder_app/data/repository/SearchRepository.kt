@@ -16,9 +16,9 @@ class SearchRepository(private val api: JobFinderApi) {
     }
 
     suspend fun saveSearchSettings(
-        region: List<String>,
-        query: List<String>,
-        where: List<String>,
+        region: String,
+        query: String,
+        where: String?,
         extraParameters: JsonObject?,
         filterMode: String,
         blacklistCompanies: List<String>,

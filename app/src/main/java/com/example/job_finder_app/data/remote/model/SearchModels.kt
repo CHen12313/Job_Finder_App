@@ -2,15 +2,13 @@ package com.example.job_finder_app.data.remote.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
-import java.io.Serial
 
 @Serializable
 data class SearchParameters(
-    val region: List<String>? = emptyList(),
-    val query: List<String>? = emptyList(),
-    val where: List<String>? = emptyList(),
+    val region: String? = null,
+    val query: String? = null,
+    val where: String? = null,
     @SerialName("extra_parameters") val extraParameters: JsonObject? = null
 )
 
@@ -24,9 +22,9 @@ data class FilterRules(
 
 @Serializable
 data class UploadParametersRequest(
-    val region: List<String>,
-    val query: List<String>,
-    val where: List<String>,
+    val region: String?,
+    val query: String?,
+    val where: String?,
     @SerialName("extra_parameters") val extraParameters: JsonObject? = null,
     @SerialName("filter_mode") val filterMode: String,
     @SerialName("blacklist_companies") val blacklistCompanies: List<String>,
