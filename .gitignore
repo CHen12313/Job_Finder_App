@@ -18,6 +18,9 @@ captures/
 .externalNativeBuild/
 .cxx/
 
+# VS Code
+.vscode/
+
 # Build outputs
 *.apk
 *.aab

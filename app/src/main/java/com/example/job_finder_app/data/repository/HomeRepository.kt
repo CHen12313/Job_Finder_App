@@ -2,11 +2,13 @@ package com.example.job_finder_app.data.repository
 
 import com.example.job_finder_app.data.model.JobCard
 import com.example.job_finder_app.data.model.Report
+import com.example.job_finder_app.data.model.SetupStatus
 import com.example.job_finder_app.data.model.Skill
 import com.example.job_finder_app.data.remote.JobFinderApi
 import com.example.job_finder_app.data.remote.bodyOrThrow
 import com.example.job_finder_app.data.remote.toJobCard
 import com.example.job_finder_app.data.remote.toReport
+import com.example.job_finder_app.data.remote.toSetupStatus
 import com.example.job_finder_app.data.remote.toSkills
 
 
@@ -26,5 +28,9 @@ class HomeRepository(private val api: JobFinderApi){
 
     suspend fun listAllReports(): Result<List<Report>> = runCatching{
         api.listAllReports().bodyOrThrow().reports.map {it.toReport()}
+    }
+
+    suspend fun getSetupStatus(): Result<SetupStatus> = runCatching{
+        api.userSetupStatus().bodyOrThrow().status.toSetupStatus()
     }
 }

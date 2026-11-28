@@ -29,11 +29,18 @@ class HomeViewModel(private val repository: HomeRepository): ViewModel(){
             val  matches = repository.getTopMatches()
             val  skills = repository.getSkills()
             val reports = repository.listAllReports()
+            val setupStatus = repository.getSetupStatus()
 
-            val error = matches.exceptionOrNull() ?: skills.exceptionOrNull()?: reports.exceptionOrNull()
+            val error = matches.exceptionOrNull() ?:
+                                                    skills.exceptionOrNull()?:
+                                                    reports.exceptionOrNull()?:
+                                                    setupStatus.exceptionOrNull()
 
             _uiState.value = when (error){
-                null -> HomeUiState.Content(matches.getOrThrow(), skills.getOrThrow(), reports.getOrThrow(), setupStatus = fakeSetupStatus)
+                null -> HomeUiState.Content(matches.getOrThrow(),
+                                            skills.getOrThrow(),
+                                            reports.getOrThrow(),
+                                            setupStatus = setupStatus.getOrThrow())
                 is NotLoggedInException -> HomeUiState.NotLoggedIn
                 else -> HomeUiState.Error(error.message ?: "Something went wrong")
             }

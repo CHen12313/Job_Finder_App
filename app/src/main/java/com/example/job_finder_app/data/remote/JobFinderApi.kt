@@ -8,6 +8,7 @@ import com.example.job_finder_app.data.remote.model.JsonReportResponse
 import com.example.job_finder_app.data.remote.model.LoginRequest
 import com.example.job_finder_app.data.remote.model.ReportListResponse
 import com.example.job_finder_app.data.remote.model.SendCodeRequest
+import com.example.job_finder_app.data.remote.model.SetupStatusResponse
 import com.example.job_finder_app.data.remote.model.SkillsTrendResponse
 import com.example.job_finder_app.data.remote.model.SuccessResponse
 import com.example.job_finder_app.data.remote.model.UploadParametersRequest
@@ -60,4 +61,7 @@ interface JobFinderApi {
     
     @POST ("api/upload_parameters")
     suspend fun uploadParameters(@Body body: UploadParametersRequest): Response<UploadParametersResponse>
+
+    @GET ("api/user_setup_status")
+    suspend fun userSetupStatus(): Response<SetupStatusResponse>
 }

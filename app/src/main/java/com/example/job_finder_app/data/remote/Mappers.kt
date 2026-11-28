@@ -1,9 +1,11 @@
 package com.example.job_finder_app.data.remote
 import com.example.job_finder_app.data.model.JobCard
 import com.example.job_finder_app.data.model.Report
+import com.example.job_finder_app.data.model.SetupStatus
 import com.example.job_finder_app.data.model.Skill
 import com.example.job_finder_app.data.remote.model.JobDto
 import com.example.job_finder_app.data.remote.model.ReportDto
+import com.example.job_finder_app.data.remote.model.SetupStatusDto
 import com.example.job_finder_app.data.remote.model.SkillsTrendResponse
 
 
@@ -38,4 +40,11 @@ fun ReportDto.toReport(): Report = Report(
     avgScore = this.avgScore,
     topScore = this.topScore,
     fileName = this.filename
+)
+
+fun SetupStatusDto.toSetupStatus(): SetupStatus = SetupStatus(
+    cvSet = this.cvSet,
+    searchSet = this.searchSet,
+    firstReportGenerated = this.firstReportGenerated,
+    setupComplete = this.setupComplete ?: (this.cvSet && this.searchSet && this.firstReportGenerated)
 )
